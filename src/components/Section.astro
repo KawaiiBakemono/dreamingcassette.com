@@ -1,0 +1,55 @@
+---
+interface Props {
+	uid: string;
+}
+const { uid } = Astro.props;
+---
+
+<div class="wrapper">
+	<span class={uid}></span>
+	<section class={uid}>
+		<slot/>
+	</section>
+</div>
+
+<style lang="sass">
+	@use "../styles/_variables" as *
+	@use "../styles/halftone" as *
+
+	.wrapper
+		display: flex
+		flex-direction: column
+
+	.wrapper + .wrapper
+		margin-top: -2rem
+		filter: drop-shadow(0 -1rem $color-accent-shadow)
+		z-index: 3
+
+		// This just flips the top edge to make it less repetitive
+		span
+			transform: scale(-1, 1)
+
+	// This is used for the jagged effect at the top of sections
+	span
+		height: 2rem
+		width: 100%
+		margin-bottom: -1px
+		clip-path: polygon(8% 46%, 0% 100%, 0% 100%, 100% 100%, 100% 40%, 92% 80%, 75% 47%, 77% 85%, 62% 82%, 36% 86%, 40% 30%, 11% 89%)
+
+	section
+		display: flex
+		flex-direction: row
+		justify-content: space-evenly
+		padding: 0 $gap-large
+
+	section.about,
+	span.about
+		background-color: $color-accent-default
+
+	section.second-section,
+	span.second-section
+		background-color: $color-background-default
+
+	section.second-section
+		height: 50rem
+</style>

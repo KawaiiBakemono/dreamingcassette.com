@@ -1,0 +1,9 @@
+@mixin halftone($bg-color, $dot-color, $dot-size)
+	&::before
+		content: ""
+		inset: 0
+		position: absolute
+		background-image: radial-gradient(circle at center, $dot-color 2rem, $bg-color 0)
+		background-size: 1.5rem 1.5rem
+		background-position: 0 0, 0.65rem 0.65rem
+		background-repeat: round

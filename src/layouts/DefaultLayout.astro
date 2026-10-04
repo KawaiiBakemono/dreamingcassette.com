@@ -1,0 +1,44 @@
+---
+import CRTFilter from "../components/CRTFilter.astro"
+---
+
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width" />
+		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+		<link rel="icon" href="/favicon.ico" />
+		<meta name="generator" content={Astro.generator} />
+		<title>DreamingCassette - Portfolio</title>
+		<!-- Open Graph Tags -->
+		<meta property="og:title" content="DreamingCassette - Portfolio">
+		<meta property="og:description" content="My portfolio">
+	</head>
+	<body>
+		<div id="checkbox-audio">
+			<audio id="tap-sound-a">
+				<source src="/assets/sound/GlassTap1.ogg" type="audio/ogg">
+			</audio>
+		</div>
+		<CRTFilter>
+			<slot />
+		</CRTFilter>
+	</body>
+</html>
+
+<style lang="sass">
+	@use "../styles/_variables" as *
+
+	html,
+	body
+		margin: 0
+		width: 100%
+		background-image: url("../assets/BlackStars.jpg")
+		animation: scroll 60s linear infinite
+		scrollbar-color: $color-accent-default black
+
+	@keyframes scroll
+		100%
+			background-position: 0 853px
+</style>

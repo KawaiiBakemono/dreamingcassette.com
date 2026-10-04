@@ -1,0 +1,32 @@
+---
+type Target = "_blank" | "_self" | "_parent" | "_top";
+interface Props {
+	href: string;
+	text: string;
+	target?: Target;
+}
+const { href, text, target } = Astro.props;
+---
+
+<a href={href} target={target}>
+	{text}
+</a>
+
+<style lang="sass">
+	@use "../styles/_variables" as *
+
+	a
+		display: flex
+		background-color: $color-background-default
+		padding: $gap-default $gap-large
+		color: $color-accent-default
+		text-align: center
+		text-decoration: none
+		filter: drop-shadow(1rem 1rem $color-accent-shadow)
+
+		&:hover
+			color: white
+			background-color: $color-background-hover
+			text-decoration: underline
+			text-decoration-thickness: 3px
+</style>

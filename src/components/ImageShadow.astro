@@ -1,0 +1,41 @@
+---
+interface Props {
+	image: string;
+	shadow: string;
+	alt?: string;
+}
+const { image, shadow, alt } = Astro.props;
+---
+
+<div id="grid-container">
+	<img id="top" src={image} alt={alt}>
+	<img id="bottom" src={shadow} alt={alt}>
+</div>
+
+<style lang="sass">
+	@use "../styles/_variables" as *
+
+	#grid-container
+		display: grid
+		grid-template-columns: minmax(0, 1fr)
+		grid-template-rows: minmax(0, 1fr)
+		align-self: flex-end
+
+		#top, #bottom
+			grid-area: 1 / 1
+			width: 90%
+			height: 100%
+			min-width: 0
+			min-height: 0
+			object-fit: contain
+
+		#top
+			z-index: 1
+
+		#bottom
+			z-index: 0
+			margin-left: -2vw
+			margin-top: 2vw
+			mix-blend-mode: multiply
+			opacity: 50%
+</style>

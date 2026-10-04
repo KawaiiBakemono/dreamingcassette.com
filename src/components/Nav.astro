@@ -1,0 +1,36 @@
+---
+import NavButton from "./NavButton.astro"
+
+interface Props {
+	currentPage: string;
+}
+const { currentPage } = Astro.props;
+
+var home: boolean = true;
+var gallery: boolean = true;
+
+if (currentPage === "home") {
+	home = false;
+}
+if (currentPage === "gallery") {
+	gallery = false
+}
+---
+
+<nav>
+	{home && <NavButton text="Home" href="/"/>}
+	{gallery && <NavButton text="Gallery" href="/gallery/"/>}
+	<NavButton text="Artistree" href="https://artistree.io/dreamingcassette" target="_blank"/>
+</nav>
+
+<style lang="sass">
+	@use "../styles/_variables" as *
+
+	nav
+		display: flex
+		align-items: center
+		margin:
+			top: $gap-large
+			bottom: $gap-large
+		gap: $gap-default
+</style>
