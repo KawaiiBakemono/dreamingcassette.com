@@ -1,0 +1,52 @@
+---
+import Nav from "./Nav.astro";
+
+import Placeholder from "../assets/Placeholder.png"
+---
+
+<script src='https://unpkg.com/panzoom@9.4.0/dist/panzoom.min.js'></script>
+<script>
+	import panzoom from "panzoom";
+
+	var element: HTMLElement | SVGElement | null = document.getElementById("bulletin-board");
+	if (element !== null) {
+		panzoom(element, {
+			bounds: true,
+			boundsPadding: 0.1
+		});
+	}
+</script>
+
+<main>
+	<Nav currentPage="gallery"></Nav>
+	<div id="bulletin-board">
+		<img class="artwork" src={Placeholder.src} alt="">
+	</div>
+	<p id="help-text">Left Click to drag, Scroll to zoom</p>
+</main>
+
+<style lang="sass">
+	@use "../styles/_variables" as *
+
+	main
+		display: flex
+		flex-direction: column
+		justify-content: space-between
+		height: 100vh
+
+	#bulletin-board
+		display: flex
+		width: fit-content
+		height: fit-content
+		background: $color-accent-default
+
+		.artwork
+			width: 30vw
+			rotate: -12deg
+			// width:
+
+	#help-text
+		z-index: 99
+		color: $color-background-default
+
+</style>

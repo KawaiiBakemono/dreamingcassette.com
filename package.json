@@ -1,5 +1,5 @@
 {
-  "name": "",
+  "name": "dreamingcassette.com",
   "type": "module",
   "version": "0.0.1",
   "engines": {
@@ -13,6 +13,7 @@
   },
   "dependencies": {
     "astro": "^7.3.5",
+    "panzoom": "^9.4.4",
     "sass": "^1.105.1"
   },
   "allowScripts": {
