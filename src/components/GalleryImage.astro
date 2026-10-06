@@ -1,17 +1,24 @@
 ---
 interface Props {
 	img: string;
-	alt?: string;
 	overflow?: boolean;
 }
-const { img, alt } = Astro.props;
+const { img, overflow } = Astro.props;
 
 import PushPin from '../assets/PushPin.png';
+
+const BASENAME_REGEX: RegExp = /([a-zA-Z0-9])+\.[a-z]+/;
+let basename = img.split('/').reverse()[0].match(BASENAME_REGEX) as RegExpMatchArray;
+let altText: string = "";
+
+if (basename !== null) {
+	altText = basename[0];
+}
 ---
 
 <div class="art-wrapper">
-	<img id="pushpin" src={PushPin.src} alt="">
-	<img id="artwork" src={img} alt={alt}>
+	<img id="pushpin" src={PushPin.src} alt="Pushpin">
+	<img id="artwork" src={img} alt={altText}>
 </div>
 
 <style lang="sass">
