@@ -1,0 +1,43 @@
+---
+interface Props {
+	img: string;
+	alt?: string;
+	overflow?: boolean;
+}
+const { img, alt } = Astro.props;
+
+import PushPin from '../assets/PushPin.png';
+---
+
+<div class="art-wrapper">
+	<img id="pushpin" src={PushPin.src} alt="">
+	<img id="artwork" src={img} alt={alt}>
+</div>
+
+<style lang="sass">
+	@use "../styles/_variables" as *
+
+	.art-wrapper
+		display: grid
+		padding: $gap-small
+		grid-template-columns: minmax(0, 1fr)
+		grid-template-rows: minmax(0, 1fr)
+		filter: drop-shadow(0.5rem 0.5rem $color-shadow-dark)
+
+	img
+		grid-area: 1 / 1
+		min-width: 0
+		min-height: 0
+
+	#pushpin
+		z-index: 1
+		width: 2vw
+		margin:
+			left: auto
+			right: auto
+			top: -2vh
+
+	@for $i from 1 through 3
+		.art-wrapper:nth-child(#{$i})
+			rotate: randomNum(-8, 8) + deg
+</style>

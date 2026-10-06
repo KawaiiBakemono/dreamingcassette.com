@@ -1,8 +1,93 @@
 ---
-import GalleryPage from '../components/Gallery.astro';
+import Nav from "../components/Nav.astro";
+import GalleryImage from "../components/GalleryImage.astro";
+
 import DefaultLayout from '../layouts/DefaultLayout.astro';
+
+// Image imports
+import AstraPfp from "../assets/AstraPFP.png"
+import ZephyrPfp from "../assets/ZephyrPFP.png"
+import JunePfp from "../assets/JunePFP.png"
+import Sazabi from '../assets/SazabiComm.png';
+import Chloe from '../assets/Chloe.png';
+import ComicLucy from '../assets/HorrorComic_Lucy.png';
+import ComicTori from '../assets/HorrorComic_Tori.png';
+import ComicZephyr from '../assets/HorrorComic_Zephyr.png';
+import NoctMommy from '../assets/NoctMommy.png';
+import Willow from '../assets/WillowIsMelty.gif';
+import AiCapsule from '../assets/AiCapsule.png';
+import Mirror from '../assets/ToTheMirror.gif';
+import SoLongStardust from '../assets/SoLongStardust.png';
+import SpookyPark from '../assets/SpookyPark.webp';
 ---
 
+<script>
+	import panzoom from "panzoom";
+
+	var element: HTMLElement | SVGElement | null = document.getElementById("bulletin-board");
+	if (element !== null) {
+		panzoom(element, {
+			bounds: true,
+			boundsPadding: 0.1
+		});
+	}
+</script>
+
 <DefaultLayout>
-	<GalleryPage />
+	<main>
+		<Nav currentPage="gallery"></Nav>
+		<div id="bulletin-board">
+			<GalleryImage img={AstraPfp.src} alt="" />
+			<GalleryImage img={ZephyrPfp.src} alt="" />
+			<GalleryImage img={JunePfp.src} alt="" />
+			<div>
+			</div>
+			<div>
+				<GalleryImage img={Sazabi.src} alt="" />
+				<GalleryImage img={Chloe.src} alt="" />
+			</div>
+			<div>
+				<GalleryImage img={ComicLucy.src} alt="" />
+				<GalleryImage img={ComicTori.src} alt="" />
+			</div>
+			<div>
+				<GalleryImage img={NoctMommy.src} alt="" />
+				<GalleryImage img={ComicZephyr.src} alt="" />
+			</div>
+			<div>
+				<GalleryImage img={Willow.src} alt="" />
+				<GalleryImage img={AiCapsule.src} alt="" />
+				<GalleryImage img={Mirror.src} alt="" />
+			</div>
+			<div>
+				<GalleryImage img={SoLongStardust.src} alt="" />
+			</div>
+			<GalleryImage img={SpookyPark.src} alt="" />
+		</div>
+		<p id="help-text">Left Click to drag, Scroll to zoom</p>
+	</main>
 </DefaultLayout>
+
+<style lang="sass">
+	@use "../styles/_variables" as *
+
+	main
+		display: flex
+		flex-direction: column
+		justify-content: space-between
+		height: 100vh
+
+	#bulletin-board
+		display: flex
+		flex-direction: column
+		flex-wrap: wrap
+		// width: 500vw
+		// height: 200vw
+		padding: $gap-large
+		background: $color-background-hover
+
+	#help-text
+		z-index: 99
+		color: $color-background-default
+		user-select: none
+</style>

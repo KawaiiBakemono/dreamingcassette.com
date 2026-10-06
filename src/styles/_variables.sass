@@ -1,3 +1,5 @@
+@use "sass:math"
+
 @font-face
 	font-family: "Into The TV"
 	src: url("../../fonts/IntoTheTV.ttf")
@@ -5,7 +7,8 @@
 // Colors
 $color-accent-default: #a31e41
 $color-accent-dark: #800c2f
-$color-accent-shadow: #1f0e2438
+$color-shadow: #1f0e2438
+$color-shadow-dark: #1f0e2488
 $color-background-default: #968e9e
 $color-background-hover: #6e627a
 $color-background-dark: #191017
@@ -21,3 +24,8 @@ $gap-huge: 4rem
 $font-size: clamp(1vw, 1rem, 1.5vw)
 $font-size-h1: clamp(1.2vw, 1.1rem, 1.7vw)
 $font-family: "Into The TV", sans-serif
+
+
+@function randomNum($min, $max)
+	$randomNum: $min + math.floor(math.random() * (($max - $min) + 1))
+	@return $randomNum
