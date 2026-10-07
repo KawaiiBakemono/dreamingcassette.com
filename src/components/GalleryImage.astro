@@ -5,7 +5,7 @@ interface Props {
 }
 const { img, overflow } = Astro.props;
 
-import PushPin from '../assets/PushPin.png';
+import PushPin from '../assets/image/PushPin.png';
 
 const BASENAME_REGEX: RegExp = /([a-zA-Z0-9])+\.[a-z]+/;
 let basename = img.split('/').reverse()[0].match(BASENAME_REGEX) as RegExpMatchArray;

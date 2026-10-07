@@ -1,24 +1,25 @@
 ---
-import Nav from "../components/Nav.astro";
-import GalleryImage from "../components/GalleryImage.astro";
-
 import DefaultLayout from '../layouts/DefaultLayout.astro';
 
+import GalleryImage from "../components/GalleryImage.astro";
+import Head from "../components/Head.astro";
+import Nav from "../components/Nav.astro";
+
 // Image imports
-import AstraPfp from "../assets/AstraPFP.png"
-import ZephyrPfp from "../assets/ZephyrPFP.png"
-import JunePfp from "../assets/JunePFP.png"
-import Sazabi from '../assets/SazabiComm.png';
-import Chloe from '../assets/Chloe.png';
-import ComicLucy from '../assets/HorrorComic_Lucy.png';
-import ComicTori from '../assets/HorrorComic_Tori.png';
-import ComicZephyr from '../assets/HorrorComic_Zephyr.png';
-import NoctMommy from '../assets/NoctMommy.png';
-import Willow from '../assets/WillowIsMelty.gif';
-import AiCapsule from '../assets/AiCapsule.png';
-import Mirror from '../assets/ToTheMirror.gif';
-import SoLongStardust from '../assets/SoLongStardust.png';
-import SpookyPark from '../assets/SpookyPark.webp';
+import astraPfp from "../assets/image/AstraPFP.png"
+import zephyrPfp from "../assets/image/ZephyrPFP.png"
+import junePfp from "../assets/image/JunePFP.png"
+import sazabi from '../assets/image/SazabiComm.png';
+import chloe from '../assets/image/Chloe.png';
+import comicLucy from '../assets/image/HorrorComic_Lucy.png';
+import comicTori from '../assets/image/HorrorComic_Tori.png';
+import comicZephyr from '../assets/image/HorrorComic_Zephyr.png';
+import noctMommy from '../assets/image/NoctMommy.png';
+import willow from '../assets/image/WillowIsMelty.gif';
+import aiCapsule from '../assets/image/AiCapsule.png';
+import mirror from '../assets/image/ToTheMirror.gif';
+import soLongStardust from '../assets/image/SoLongStardust.png';
+import spookyPark from '../assets/image/SpookyPark.webp';
 ---
 
 <script>
@@ -34,35 +35,39 @@ import SpookyPark from '../assets/SpookyPark.webp';
 </script>
 
 <DefaultLayout>
-	<main>
+	<Head slot="head" title="DreamingCassette - Home"
+		description="My official portfolio site. Get in contact or browse my artwork"
+		image={astraPfp.src} url="https://dreamingcassette.com/gallery" />
+
+	<main slot="main">
 		<Nav currentPage="gallery"></Nav>
 		<div id="bulletin-board">
-			<GalleryImage img={AstraPfp.src} />
-			<GalleryImage img={ZephyrPfp.src} />
-			<GalleryImage img={JunePfp.src} />
+			<GalleryImage img={astraPfp.src} />
+			<GalleryImage img={zephyrPfp.src} />
+			<GalleryImage img={junePfp.src} />
 			<div>
 			</div>
 			<div>
-				<GalleryImage img={Sazabi.src} />
-				<GalleryImage img={Chloe.src} />
+				<GalleryImage img={sazabi.src} />
+				<GalleryImage img={chloe.src} />
 			</div>
 			<div>
-				<GalleryImage img={ComicLucy.src} />
-				<GalleryImage img={ComicTori.src} />
+				<GalleryImage img={comicLucy.src} />
+				<GalleryImage img={comicTori.src} />
 			</div>
 			<div>
-				<GalleryImage img={NoctMommy.src} />
-				<GalleryImage img={ComicZephyr.src} />
+				<GalleryImage img={noctMommy.src} />
+				<GalleryImage img={comicZephyr.src} />
 			</div>
 			<div>
-				<GalleryImage img={Willow.src} />
-				<GalleryImage img={AiCapsule.src} />
-				<GalleryImage img={Mirror.src} />
+				<GalleryImage img={willow.src} />
+				<GalleryImage img={aiCapsule.src} />
+				<GalleryImage img={mirror.src} />
 			</div>
 			<div>
-				<GalleryImage img={SoLongStardust.src} />
+				<GalleryImage img={soLongStardust.src} />
 			</div>
-			<GalleryImage img={SpookyPark.src} />
+			<GalleryImage img={spookyPark.src} />
 		</div>
 		<p id="help-text">Left Click to drag, Scroll to zoom</p>
 	</main>

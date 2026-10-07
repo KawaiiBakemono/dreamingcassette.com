@@ -1,0 +1,28 @@
+# Text
+* text=auto eol=lf
+*.mjs text
+*.js text
+*.ts text
+*.astro text
+*.md text diff=markdown
+bun.lock text
+
+# Image
+*.png binary
+*.gif binary
+*.webp binary
+*.ico binary
+*.svg text
+
+# Audio
+*.ogg binary
+
+# Font
+*.ttf binary
+
+# Serialization
+*.json text
+
+# Ignore
+.gitattributes export-ignore
+.gitignore export-ignore

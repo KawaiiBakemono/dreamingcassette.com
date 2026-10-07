@@ -1,18 +1,24 @@
 ---
 import DefaultLayout from '../layouts/DefaultLayout.astro';
-import Section from "../components/Section.astro";
-import Nav from "../components/Nav.astro";
-import ImageShadow from "../components/ImageShadow.astro";
 
-import otherImage from "../assets/Placeholder.png";
-import profileImage from "../assets/AstraGuitar.webp";
-import profileImageShadow from "../assets/AstraGuitar_Shadow.webp";
-import psychoEngineLogo from "../assets/PsychoEngine-logo.png";
-import siteLogo from "../assets/DreamingCassete_logo.png";
+import Head from '../components/Head.astro';
+import ImageShadow from "../components/ImageShadow.astro";
+import Nav from "../components/Nav.astro";
+import Section from "../components/Section.astro";
+
+import profileImage from "../assets/image/AstraGuitar.webp";
+import profileImageShadow from "../assets/image/AstraGuitar_Shadow.webp";
+import zephySilly from "../assets/image/ZephyrSilly.png";
+import siteLogo from "../assets/image/DreamingCassete_logo.png";
+import astraPfp from "../assets/image/AstraPFP.png";
 ---
 
 <DefaultLayout>
-	<main>
+	<Head slot="head" title="DreamingCassette - Home"
+		description="My official portfolio site. Get in contact or browse my artwork"
+		image={astraPfp.src} url="https://dreamingcassette.com" />
+
+	<main slot="main">
 		<img id="site-logo" src={siteLogo.src} alt="Site Logo" fetchpriority="high">
 
 		<Section uid="about">
@@ -22,14 +28,20 @@ import siteLogo from "../assets/DreamingCassete_logo.png";
 				<div class="info-box">
 					<h1 class="grid-span">About Dreamingcassette</h1>
 					<ul class="grid-span">
-						<li>i make things that are cool</li>
-						<li>i can draw real good</li>
-						<li>sometimes i write (dubiously well)</li>
-						<li>i started PSYCHO ENGINE and we try to make stuff</li>
+						<li>2D Illustrator/Animator</li>
+						<li>Writer</li>
+						<li>Started PSYCHO ENGINE with ZephyrBytes. We try to make games</li>
+					</ul>
+					<h1 class="grid-span">Programs I Use</h1>
+					<ul class="grid-span">
+						<li>Krita (Main Pick)</li>
+						<li>Clip Studio Paint</li>
+						<li>ibisPaint</li>
+						<li>Obsidian</li>
 					</ul>
 					<div class="align-row">
-						<img src={psychoEngineLogo.src} alt="">
-						<p >go checkout <a href="https://kawaiibakemono.art/home/" target="_blank">
+						<img src={zephySilly.src} alt="">
+						<p>go checkout <a href="https://kawaiibakemono.art/home/" target="_blank">
 							zephyrbytes</a> she's super cool (she made this website for me)</p>
 					</div>
 
@@ -54,7 +66,7 @@ import siteLogo from "../assets/DreamingCassete_logo.png";
 			left: 10vw
 			right: 10vw
 		z-index: 1
-		background-image: url("../assets/background.jpg")
+		background-image: url("../assets/image/background.jpg")
 		background-size: 80vw
 		background-origin: border-box
 		background-repeat: no-repeat
@@ -86,7 +98,7 @@ import siteLogo from "../assets/DreamingCassete_logo.png";
 		width: 32vw
 
 		img
-			width: 10vw
+			width: 6vw
 
 	.align-row
 		display: flex
@@ -98,4 +110,11 @@ import siteLogo from "../assets/DreamingCassete_logo.png";
 		margin-block-start: $gap-tiny
 		margin-block-end: $gap-tiny
 		text-transform: uppercase
+
+	ul
+		padding-inline-start: $gap-large
+		padding-inline-end: $gap-large
+
+	li
+		list-style-image: url("/src/assets/svg/Rocket.svg")
 </style>

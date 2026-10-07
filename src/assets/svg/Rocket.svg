@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Uploaded to: SVG Repo, www.svgrepo.com, Generator: SVG Repo Mixer Tools -->
+
+<svg
+   width="16"
+   height="16"
+   viewBox="0 0 0.48000001 0.48"
+   fill="none"
+   version="1.1"
+   id="svg3"
+   sodipodi:docname="Rocket.svg"
+   inkscape:version="1.4.4 (dcaf3e7d9e, 2026-05-05)"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <defs
+     id="defs3" />
+  <sodipodi:namedview
+     id="namedview3"
+     pagecolor="#505050"
+     bordercolor="#ffffff"
+     borderopacity="1"
+     inkscape:showpageshadow="0"
+     inkscape:pageopacity="0"
+     inkscape:pagecheckerboard="1"
+     inkscape:deskcolor="#d1d1d1"
+     inkscape:zoom="11.766257"
+     inkscape:cx="3.5695294"
+     inkscape:cy="9.731217"
+     inkscape:current-layer="svg3" />
+  <g
+     id="g1"
+     transform="scale(0.50000001)"
+     style="stroke-width:2">
+    <path
+       id="path1"
+       style="opacity:1;fill:#0c0809;fill-opacity:1;stroke-width:0.18;stroke-linecap:round;stroke-linejoin:round;paint-order:stroke fill markers"
+       d="M 0.12,0.24 0.18,0.46377404 0.12,0.72 H 0.6 0.72 L 0.96,0.48 0.72,0.24 H 0.6 Z m 0.42,0.12 c 0.0662742,0 0.12,0.0537258 0.12,0.12 C 0.66,0.5462742 0.6062742,0.6 0.54,0.6 0.4737258,0.6 0.42,0.5462742 0.42,0.48 0.42,0.4137258 0.4737258,0.36 0.54,0.36 Z"
+       sodipodi:nodetypes="cccccccccsssss" />
+    <path
+       id="path4"
+       style="opacity:1;fill:#0c0809;fill-opacity:1;stroke-width:0.18;stroke-linecap:round;stroke-linejoin:round;paint-order:stroke fill markers"
+       d="M 0,0 0.12,0.18 0.54,0.17921928 0.21014423,7.8072278e-4 Z"
+       sodipodi:nodetypes="ccccc" />
+    <path
+       id="path6"
+       style="opacity:1;fill:#0c0809;fill-opacity:1;stroke-width:0.18;stroke-linecap:round;stroke-linejoin:round;paint-order:stroke fill markers"
+       d="m 0,0.96000001 0.12,-0.18 0.42,7.8071e-4 -0.32985577,0.17843857 z"
+       sodipodi:nodetypes="ccccc" />
+  </g>
+</svg>

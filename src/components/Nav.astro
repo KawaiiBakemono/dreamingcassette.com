@@ -9,6 +9,7 @@ const { currentPage } = Astro.props;
 var home: boolean = true;
 var gallery: boolean = true;
 
+// currentPage just chooses which button to omit
 if (currentPage === "home") {
 	home = false;
 }
