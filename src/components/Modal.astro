@@ -8,22 +8,20 @@ import zephyrPfp from "../assets/image/ZephyrPFP.png";
 		<p id="modal-desc">Fuckass text</p>
 	</div>
 	<img id="modal-image" src={zephyrPfp.src} alt="" />
-	<button id="modal-close-button" onclick="">
-		<div></div>
-	</button>
+	<button id="modal-close-button" onclick="">X</button>
 </div>
 
 <style lang="sass">
 	@use "../styles/_variables" as *
 
 	#modal
-		display: flex
+		display: none
 		position: fixed
 		align-items: center
 		justify-content: space-between
 		z-index: 4
 		inset: calc($gap-huge * -1)
-		padding: calc($gap-huge * 2)
+		padding: calc($gap-huge * 1.5)
 		backdrop-filter: blur(10px)
 		background-color: rgba(0, 0, 0, 0.8)
 
@@ -43,9 +41,9 @@ import zephyrPfp from "../assets/image/ZephyrPFP.png";
 			margin: $gap-default
 			background-color: $color-background-default
 			font-size: 32px
-			cursor: pointer
 
-			&:hover
+			&.hover
+				cursor: $cursor-pointer
 				color: white
 				background-color: $color-background-hover
 </style>

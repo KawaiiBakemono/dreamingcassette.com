@@ -26,15 +26,40 @@ import spookyPark from "../assets/image/SpookyPark.webp";
 
 <script>
 	import panzoom from "panzoom";
+	import type { Transform } from "panzoom";
 
-	var element: HTMLElement | SVGElement | null =
-		document.getElementById("bulletin-board");
-	if (element !== null) {
-		panzoom(element, {
+	var bulletinBoard: HTMLElement | null = document.getElementById("bulletin-board");
+
+	if (bulletinBoard !== null) {
+		const instance = panzoom(bulletinBoard, {
 			bounds: true,
 			boundsPadding: 0.1,
+			minZoom: 0.25,
+			maxZoom: 5,
+			initialX: 0,
+			initialY: 0,
+			transformOrigin: { x: 0.5, y: 0.5 },
+			zoomDoubleClickSpeed: 1,
+		});
+
+		// Reset position/zoom
+		window.addEventListener("keydown", (event) => {
+			const transform: Transform = instance.getTransform();
+			var scale: number = 0.0;
+
+			if (transform !== null) {
+				scale = 1 / transform.scale;
+			}
+			console.log(transform)
+
+			instance.smoothMoveTo
+			if (event.key === "r") {
+				instance.smoothMoveTo(0, 0);
+				// instance.smoothZoom(0, 0, scale);
+			}
 		});
 	}
+
 </script>
 
 <DefaultLayout>
@@ -52,7 +77,11 @@ import spookyPark from "../assets/image/SpookyPark.webp";
 		<div id="hud">
 			<Nav currentPage="gallery" />
 			<div id="help-text">
-				<p>Left Click to drag, Scroll to zoom</p>
+				<div>
+					<p>Left Click to drag</p>
+					<p>Scroll to zoom</p>
+					<p>R to reset position</p>
+				</div>
 				<Footer />
 			</div>
 		</div>
@@ -92,6 +121,10 @@ import spookyPark from "../assets/image/SpookyPark.webp";
 
 	main
 		overflow: visible
+		cursor: $cursor-grab
+
+		&:active
+			cursor: $cursor-grabbing
 
 	#hud
 		display: flex
@@ -117,14 +150,17 @@ import spookyPark from "../assets/image/SpookyPark.webp";
 		width: 160vw
 		box-shadow: 10px 10px 10px $color-shadow-dark inset
 
+
 	#help-text
 		display: flex
 		flex-direction: row
+		align-items: flex-end
 		justify-content: space-between
 		color: $color-background-default
 		user-select: none
 		width: 100vw
 		text-shadow: 2px 3px $color-foreground-default
+		font-size: $font-size-small
 
 		&:nth-child(2)
 			align-self: end

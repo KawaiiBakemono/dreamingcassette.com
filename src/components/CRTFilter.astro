@@ -22,7 +22,7 @@ const { overflow } = Astro.props;
 	</filter>
 </svg>
 
-<div id="crt-screen-wrapper">
+<div id="crt-screen-wrapper" tabindex="-1">
 	<!-- Page goes here -->
 	<slot />
 </div>
@@ -148,7 +148,7 @@ const { overflow } = Astro.props;
 	canvas.height = MAP_H;
 	const context: CanvasRenderingContext2D = canvas.getContext("2d")!;
 
-	function build() {
+	function render() {
 		const WIDTH: number = window.innerWidth;
 		const HEIGHT: number = window.innerHeight;
 		const maxX: number = (WIDTH / 2) * CURVATURE * 2;
@@ -182,17 +182,70 @@ const { overflow } = Astro.props;
 		feDisplace.setAttribute("scale", String(scale));
 	}
 
+	function visibleToSource(x: number, y: number): [number, number] {
+		const WIDTH = window.innerWidth;
+		const HEIGHT = window.innerHeight;
+		const u = (x / WIDTH) * 2 - 1;
+		const v = (y / HEIGHT) * 2 - 1;
+		const r2 = u * u + v * v;
+		return [
+			x + (WIDTH / 2) * u * CURVATURE * r2,
+			y + (HEIGHT / 2) * v * CURVATURE * r2,
+		];
+	}
+
+	function targetAt(e: MouseEvent) {
+		const [x, y] = visibleToSource(e.clientX, e.clientY);
+		return { el: document.elementFromPoint(x, y), x, y };
+	}
+
+	window.addEventListener("click", (e) => {
+		if (!e.isTrusted) return; // let our own synthetic clicks through
+		e.preventDefault();
+		e.stopImmediatePropagation();
+
+		const { el, x, y } = targetAt(e);
+		if (!el) return;
+
+		if (el instanceof HTMLElement && el.matches("input, textarea, select, [contenteditable]")) {
+			el.focus();
+		}
+		el.dispatchEvent(
+			new MouseEvent("click", {
+				bubbles: true,
+				cancelable: true,
+				composed: true,
+				view: window,
+				clientX: x,
+				clientY: y,
+				button: e.button,
+				ctrlKey: e.ctrlKey,
+				shiftKey: e.shiftKey,
+				altKey: e.altKey,
+				metaKey: e.metaKey,
+		})); }, true
+	);
+
+	let hovered: Element[] = [];
+	window.addEventListener(
+		"pointermove",
+		(e) => {
+			if (!e.isTrusted) return;
+			const { el } = targetAt(e);
+			const chain: Element[] = [];
+			for (let n = el; n; n = n.parentElement) chain.push(n);
+			for (const n of hovered) if (!chain.includes(n)) n.classList.remove("hover");
+			for (const n of chain) n.classList.add("hover");
+			hovered = chain;
+		},
+		{ passive: true },
+	);
+
 	let timer: number;
 	window.addEventListener("resize", () => {
 		clearTimeout(timer);
-		timer = window.setTimeout(build, 150);
+		timer = window.setTimeout(render, 150);
 	});
-	build();
 
-	window.addEventListener("onclick", () => {
-		// let soundInner = _sound.firstChild as HTMLSourceElement;
-		// let overlapAudio: HTMLAudioElement = new Audio(soundInner.src);
-		// let clone = overlapAudio.cloneNode() as HTMLAudioElement;
-		// clone.play();
-	});
+	render();
 </script>

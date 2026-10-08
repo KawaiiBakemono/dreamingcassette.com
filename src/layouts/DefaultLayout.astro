@@ -22,7 +22,7 @@ import CRTFilter from "../components/CRTFilter.astro"
 	</body>
 </html>
 
-<style lang="sass">
+<style is:global lang="sass">
 	@use "../styles/_variables" as *
 
 	html,
@@ -34,6 +34,15 @@ import CRTFilter from "../components/CRTFilter.astro"
 		scrollbar-color: $color-accent-default black
 		font-family: $font-family
 		font-size: $font-size
+
+	body
+		outline: none
+		cursor: $cursor-default
+
+	a,
+	button,
+	[role="button"]
+		cursor: $cursor-pointer
 
 	@keyframes scroll
 		100%

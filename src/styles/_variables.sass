@@ -23,8 +23,15 @@ $gap-huge: calc($gap-default * 4)
 
 // Font
 $font-size: clamp(12px, 1rem, 20px)
+$font-size-small: clamp(8px, 0.8rem, 12px)
 $font-size-h1: clamp(14px, 1.1rem, 22px)
 $font-family: "Into The TV", sans-serif
+
+// Cursors
+$cursor-default: url("../assets/image/cursor/default.png") 0 0, auto
+$cursor-pointer: url("../assets/image/cursor/pointer.png") 13 1, pointer
+$cursor-grab: url("../assets/image/cursor/grab.png") 10 10, grab
+$cursor-grabbing: url("../assets/image/cursor/grabbing.png") 10 10, grabbing
 
 @function randomNum($min, $max)
 	$randomNum: $min + math.floor(math.random() * (($max - $min) + 1))
