@@ -1,3 +1,11 @@
+---
+interface Props {
+	overflow?: string;
+}
+const { overflow } = Astro.props;
+---
+
+<!-- This is used for the barrel distortion shader -->
 <svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
 	<filter id="crt-filter" filterUnits="userSpaceOnUse" x="0" y="0" width="1" height="1" color-interpolation-filters="sRGB">
 	<feImage id="crt-map" x="0" y="0" width="1" height="1" preserveAspectRatio="none" result="map" />
@@ -14,8 +22,8 @@
 	</filter>
 </svg>
 
-<!-- Page goes here -->
 <div id="crt-screen-wrapper">
+	<!-- Page goes here -->
 	<slot />
 </div>
 
@@ -27,7 +35,7 @@
 	<div class="crt-vignette"></div>
 </div>
 
-<style lang="sass">
+<style lang="sass" define:vars={{overflow}}>
 	$roll-height: 18vh
 	$scanline-period: 3px
 	$scanline-alpha: 0.3
@@ -35,9 +43,8 @@
 	#crt-screen-wrapper
 		position: fixed
 		inset: 0
+		overflow-y: var(--overflow)
 		filter: url(#crt-filter)
-		overflow: auto
-		scrollbar-width: 0
 
 	#crt-overlay
 		position: fixed
@@ -51,9 +58,11 @@
 		inset: 0
 
 	// Glass highlights
+	$highlight-topleft: radial-gradient(ellipse 32% 28% at 24% 24%, #ffffff04, transparent 70%)
+	$highlight-bottomright: radial-gradient(ellipse 10% 8% at 90% 92%, #ffffff02, transparent 70%)
 	.crt-glass
 		@include layer
-		background: radial-gradient(ellipse 60% 35% at 28% 8%, #ffffff13, transparent 70%), radial-gradient(ellipse 30% 20% at 85% 92%, #ffffff0a, transparent 70%)
+		background: $highlight-topleft, $highlight-bottomright
 
 	.crt-scanlines
 		@include layer
@@ -69,7 +78,6 @@
 		@include layer
 		background: radial-gradient(ellipse at center, transparent 80%, #0000008c 100%)
 		box-shadow: inset 0 0 8vmin 2vmin #000000d9
-		border-radius: 6vmin / 5vmin
 
 	.crt-flicker
 		@include layer
@@ -125,6 +133,7 @@
 </style>
 
 <script>
+	// TODO: Fix artifacting on text n shit
 	// Barrel distortion displacement map filter :3
 	const filter: SVGElement = document.getElementById("crt-filter") as unknown as SVGElement;
 	const feMap: SVGElement = document.getElementById("crt-map") as unknown as SVGElement;

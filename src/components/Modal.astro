@@ -1,0 +1,62 @@
+---
+import zephyrPfp from "../assets/image/ZephyrPFP.png";
+---
+
+<div id="modal">
+	<div>
+		<h1 id="modal-title">Placeholder Heading</h1>
+		<p id="modal-desc">Fuckass text</p>
+	</div>
+	<img id="modal-image" src={zephyrPfp.src} alt="" />
+	<button id="modal-close-button" onclick="">
+		<div></div>
+	</button>
+</div>
+
+<style lang="sass">
+	@use "../styles/_variables" as *
+
+	#modal
+		display: flex
+		position: fixed
+		align-items: center
+		justify-content: space-between
+		z-index: 4
+		inset: calc($gap-huge * -1)
+		padding: calc($gap-huge * 2)
+		backdrop-filter: blur(10px)
+		background-color: rgba(0, 0, 0, 0.8)
+
+		h1#modal-title
+			color: $color-background-default
+
+		p#modal-desc
+			color: $color-background-hover
+
+		img#modal-image
+			width: 50vw
+
+		button#modal-close-button
+			align-self: flex-start
+			border: none
+			padding: $gap-small $gap-default
+			margin: $gap-default
+			background-color: $color-background-default
+			font-size: 32px
+			cursor: pointer
+
+			&:hover
+				color: white
+				background-color: $color-background-hover
+</style>
+
+<script>
+	const modal = document.getElementById("modal");
+	const closeButton = document.getElementById("modal-close-button");
+
+	if (closeButton !== null && modal !== null) {
+		closeButton.onclick = function () {
+			modal.style.display = "none";
+		};
+	}
+</script>

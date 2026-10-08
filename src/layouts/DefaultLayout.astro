@@ -1,4 +1,9 @@
 ---
+interface Props {
+	overflow?: string;
+}
+const { overflow } = Astro.props;
+
 import CRTFilter from "../components/CRTFilter.astro"
 ---
 
@@ -11,7 +16,7 @@ import CRTFilter from "../components/CRTFilter.astro"
 				<source src="/assets/sound/GlassTap1.ogg" type="audio/ogg">
 			</audio>
 		</div> -->
-		<CRTFilter>
+		<CRTFilter overflow={overflow}>
 			<slot name="main" />
 		</CRTFilter>
 	</body>

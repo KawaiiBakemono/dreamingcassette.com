@@ -1,75 +1,89 @@
 ---
-import DefaultLayout from '../layouts/DefaultLayout.astro';
+import DefaultLayout from "../layouts/DefaultLayout.astro";
 
 import GalleryImage from "../components/GalleryImage.astro";
 import Head from "../components/Head.astro";
 import Nav from "../components/Nav.astro";
+import Modal from "../components/Modal.astro";
+import Footer from "../components/Footer.astro";
 
 // Image imports
-import astraPfp from "../assets/image/AstraPFP.png"
-import zephyrPfp from "../assets/image/ZephyrPFP.png"
-import junePfp from "../assets/image/JunePFP.png"
-import sazabi from '../assets/image/SazabiComm.png';
-import chloe from '../assets/image/Chloe.png';
-import comicLucy from '../assets/image/HorrorComic_Lucy.png';
-import comicTori from '../assets/image/HorrorComic_Tori.png';
-import comicZephyr from '../assets/image/HorrorComic_Zephyr.png';
-import noctMommy from '../assets/image/NoctMommy.png';
-import willow from '../assets/image/WillowIsMelty.gif';
-import aiCapsule from '../assets/image/AiCapsule.png';
-import mirror from '../assets/image/ToTheMirror.gif';
-import soLongStardust from '../assets/image/SoLongStardust.png';
-import spookyPark from '../assets/image/SpookyPark.webp';
+import astraPfp from "../assets/image/AstraPFP.png";
+import zephyrPfp from "../assets/image/ZephyrPFP.png";
+import junePfp from "../assets/image/JunePFP.png";
+import sazabi from "../assets/image/SazabiComm.png";
+import chloe from "../assets/image/Chloe.png";
+import comicLucy from "../assets/image/HorrorComic_Lucy.png";
+import comicTori from "../assets/image/HorrorComic_Tori.png";
+import comicZephyr from "../assets/image/HorrorComic_Zephyr.png";
+import noctMommy from "../assets/image/NoctMommy.png";
+import willow from "../assets/image/WillowIsMelty.gif";
+import aiCapsule from "../assets/image/AiCapsule.png";
+import mirror from "../assets/image/ToTheMirror.gif";
+import soLongStardust from "../assets/image/SoLongStardust.png";
+import spookyPark from "../assets/image/SpookyPark.webp";
 ---
 
 <script>
 	import panzoom from "panzoom";
 
-	var element: HTMLElement | SVGElement | null = document.getElementById("bulletin-board");
+	var element: HTMLElement | SVGElement | null =
+		document.getElementById("bulletin-board");
 	if (element !== null) {
 		panzoom(element, {
 			bounds: true,
-			boundsPadding: 0.1
+			boundsPadding: 0.1,
 		});
 	}
 </script>
 
 <DefaultLayout>
-	<Head slot="head" title="DreamingCassette - Home"
+	<Head
+		slot="head"
+		title="DreamingCassette - Gallery"
 		description="My official portfolio site. Get in contact or browse my artwork"
-		image={astraPfp.src} url="https://dreamingcassette.com/gallery" />
+		image={astraPfp.src}
+		url="https://dreamingcassette.com/gallery"
+	/>
 
 	<main slot="main">
-		<Nav currentPage="gallery"></Nav>
-		<div id="bulletin-board">
-			<GalleryImage img={astraPfp.src} />
-			<GalleryImage img={zephyrPfp.src} />
-			<GalleryImage img={junePfp.src} />
-			<div>
+		<Modal />
+
+		<div id="hud">
+			<Nav currentPage="gallery" />
+			<div id="help-text">
+				<p>Left Click to drag, Scroll to zoom</p>
+				<Footer />
 			</div>
-			<div>
-				<GalleryImage img={sazabi.src} />
-				<GalleryImage img={chloe.src} />
-			</div>
-			<div>
-				<GalleryImage img={comicLucy.src} />
-				<GalleryImage img={comicTori.src} />
-			</div>
-			<div>
-				<GalleryImage img={noctMommy.src} />
-				<GalleryImage img={comicZephyr.src} />
-			</div>
-			<div>
-				<GalleryImage img={willow.src} />
-				<GalleryImage img={aiCapsule.src} />
-				<GalleryImage img={mirror.src} />
-			</div>
-			<div>
-				<GalleryImage img={soLongStardust.src} />
-			</div>
-			<GalleryImage img={spookyPark.src} />
 		</div>
-		<p id="help-text">Left Click to drag, Scroll to zoom</p>
+
+		<div id="bulletin-board">
+			<div>
+				<GalleryImage class="art-small" img={astraPfp.src} />
+				<GalleryImage class="art-small" img={zephyrPfp.src} />
+				<GalleryImage class="art-small" img={junePfp.src} />
+			</div>
+			<div>
+				<GalleryImage class="art-medium" img={sazabi.src} />
+				<GalleryImage class="art-medium" img={chloe.src} />
+			</div>
+			<div>
+				<GalleryImage class="art-medium" img={comicLucy.src} />
+				<GalleryImage class="art-medium" img={comicTori.src} />
+			</div>
+			<div>
+				<GalleryImage class="art-medium" img={noctMommy.src} />
+				<GalleryImage class="art-medium" img={comicZephyr.src} />
+			</div>
+			<div>
+				<GalleryImage class="art-medium" img={willow.src} />
+				<GalleryImage class="art-medium" img={aiCapsule.src} />
+			</div>
+			<div>
+				<GalleryImage class="art-large" img={soLongStardust.src} />
+				<GalleryImage class="art-medium" img={mirror.src} />
+			</div>
+		</div>
 	</main>
 </DefaultLayout>
 
@@ -77,22 +91,41 @@ import spookyPark from '../assets/image/SpookyPark.webp';
 	@use "../styles/_variables" as *
 
 	main
+		overflow: visible
+
+	#hud
 		display: flex
 		flex-direction: column
+		position: absolute
 		justify-content: space-between
+		z-index: 2
 		height: 100vh
+		pointer-events: none
 
 	#bulletin-board
 		display: flex
 		flex-direction: column
+		align-items: center
+		justify-content: center
 		flex-wrap: wrap
-		// width: 500vw
-		// height: 200vw
 		padding: $gap-large
-		background: $color-background-hover
+		background-image: url("../assets/image/Bulletin.png")
+		border-width: 50px
+		border-style: solid
+		border-image: url("../assets/image/BulletinBorder.png") 30%
+		height: 115vh
+		width: 160vw
+		box-shadow: 10px 10px 10px $color-shadow-dark inset
 
 	#help-text
-		z-index: 99
+		display: flex
+		flex-direction: row
+		justify-content: space-between
 		color: $color-background-default
 		user-select: none
+		width: 100vw
+		text-shadow: 2px 3px $color-foreground-default
+
+		&:nth-child(2)
+			align-self: end
 </style>

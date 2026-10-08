@@ -5,15 +5,33 @@ import Head from '../components/Head.astro';
 import ImageShadow from "../components/ImageShadow.astro";
 import Nav from "../components/Nav.astro";
 import Section from "../components/Section.astro";
+import Footer from "../components/Footer.astro"
 
 import profileImage from "../assets/image/AstraGuitar.webp";
 import profileImageShadow from "../assets/image/AstraGuitar_Shadow.webp";
 import zephySilly from "../assets/image/ZephyrSilly.png";
 import siteLogo from "../assets/image/DreamingCassete_logo.png";
 import astraPfp from "../assets/image/AstraPFP.png";
+import stickerAstra from "../assets/image/StickerAstra.webp";
+import stickerDrone from "../assets/image/StickerDrone.webp";
+import stickerRaptor from "../assets/image/StickerRaptor.webp";
 ---
 
-<DefaultLayout>
+<script>
+// async function loadImages(images: Array<string>): Promise<string> {
+// 	let loaded = images.forEach((source: string) => {
+// 		let imageElement = new Image();
+// 		imageElement.src = source
+// 	}
+
+// 	)
+
+// 	Promise.all(images)
+// }
+
+</script>
+
+<DefaultLayout overflow="scroll">
 	<Head slot="head" title="DreamingCassette - Home"
 		description="My official portfolio site. Get in contact or browse my artwork"
 		image={astraPfp.src} url="https://dreamingcassette.com" />
@@ -34,25 +52,29 @@ import astraPfp from "../assets/image/AstraPFP.png";
 					</ul>
 					<h1 class="grid-span">Programs I Use</h1>
 					<ul class="grid-span">
-						<li>Krita (Main Pick)</li>
+						<li>Krita <span class="muted">(Main Pick)</span></li>
 						<li>Clip Studio Paint</li>
 						<li>ibisPaint</li>
 						<li>Obsidian</li>
 					</ul>
 					<div class="align-row">
 						<img src={zephySilly.src} alt="">
-						<p>go checkout <a href="https://kawaiibakemono.art/home/" target="_blank">
-							zephyrbytes</a> she's super cool (she made this website for me)</p>
+						<p>Go checkout <a href="https://kawaiibakemono.art/home/" target="_blank">
+							ZephyrBytes</a>, she's super cool (she made this website for me)</p>
 					</div>
 
 				</div>
 			</div>
 			<ImageShadow image={profileImage.src} shadow={profileImageShadow.src} alt="Astra Gutiar" />
 		</Section>
-		<Section uid="second-section"></Section>
-		<footer>
-			Made by ZephyrBytes
-		</footer>
+		<Section uid="second-section">
+			<div class="scrolling-banner">
+				<img src={stickerDrone.src} alt="">
+				<img src={stickerRaptor.src} alt="">
+				<img src={stickerAstra.src} alt="">
+			</div>
+		</Section>
+		<Footer />
 	</main>
 </DefaultLayout>
 
@@ -70,6 +92,7 @@ import astraPfp from "../assets/image/AstraPFP.png";
 		background-size: 80vw
 		background-origin: border-box
 		background-repeat: no-repeat
+		overflow-x: hidden
 
 	a
 		color: $color-accent-default
@@ -94,11 +117,13 @@ import astraPfp from "../assets/image/AstraPFP.png";
 		margin:
 			top: $gap-large
 			bottom: $gap-huge
-		border: 6px solid $color-background-dark
+		border: 20px solid $color-foreground-default
 		width: 32vw
 
 		img
-			width: 6vw
+			align-self: center
+			width: 6rem
+			filter: drop-shadow(0.5rem 0 $color-shadow)
 
 	.align-row
 		display: flex
@@ -117,4 +142,19 @@ import astraPfp from "../assets/image/AstraPFP.png";
 
 	li
 		list-style-image: url("/src/assets/svg/Rocket.svg")
+
+	.muted
+		color: $color-foreground-muted
+
+	.scrolling-banner
+		display: flex
+		flex-direction: row
+		align-items: center
+		animation: banner-scroll 20s linear infinite
+
+	@keyframes banner-scroll
+		0%
+			transform: translate(-100%, 0)
+		100%
+			transform: translate(100%, 0)
 </style>

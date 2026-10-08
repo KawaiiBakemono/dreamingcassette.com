@@ -11,20 +11,20 @@ $color-shadow: #1f0e2438
 $color-shadow-dark: #1f0e2488
 $color-background-default: #968e9e
 $color-background-hover: #6e627a
-$color-background-dark: #0c0809
+$color-foreground-default: #0c0809
+$color-foreground-muted: #4e4458
 
 // Gaps
-$gap-tiny: 0.25rem
-$gap-small: 0.5rem
-$gap-default: 1rem
-$gap-large: 2rem
-$gap-huge: 4rem
+$gap-default: clamp(12px, 1rem, 16px)
+$gap-tiny: calc($gap-default / 4)
+$gap-small: calc($gap-default / 2)
+$gap-large: calc($gap-default * 2)
+$gap-huge: calc($gap-default * 4)
 
 // Font
-$font-size: clamp(1vw, 1rem, 1.5vw)
-$font-size-h1: clamp(1.2vw, 1.1rem, 1.7vw)
+$font-size: clamp(12px, 1rem, 20px)
+$font-size-h1: clamp(14px, 1.1rem, 22px)
 $font-family: "Into The TV", sans-serif
-
 
 @function randomNum($min, $max)
 	$randomNum: $min + math.floor(math.random() * (($max - $min) + 1))
