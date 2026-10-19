@@ -1,14 +1,39 @@
 ---
-import zephyrPfp from "../assets/image/ZephyrPFP.png";
+import externalLink from "../assets/svg/Link.svg";
 ---
 
+<script>
+	const CLOSE_KEY = "Escape"; // Key not keycode
+
+	const modal = document.getElementById("modal");
+	const closeButton = document.getElementById("modal-close-button");
+
+	function closeModal(): void {
+		if (modal) modal.style.display = "none"; else return;
+	}
+
+	function closeModalKey(event: KeyboardEvent) {
+		if (event.key === CLOSE_KEY) {
+			closeModal();
+		}
+	}
+
+	if (closeButton) closeButton.onclick = closeModal;
+
+	window.addEventListener("keyup", closeModalKey);
+</script>
+
 <div id="modal">
-	<div>
-		<h1 id="modal-title">Placeholder Heading</h1>
-		<p id="modal-desc">Fuckass text</p>
+	<div id="modal-attr">
+		<h1 id="modal-title"></h1>
+		<p id="modal-desc"></p>
+		<div id="modal-url-wrapper">
+			<a id="modal-url" href="" target="_blank"></a>
+			<img id="modal-linkicon" src={externalLink.src} alt="External Link">
+		</div>
 	</div>
-	<img id="modal-image" src={zephyrPfp.src} alt="" />
-	<button id="modal-close-button" onclick="">X</button>
+	<img id="modal-image" src="" alt=""/>
+	<button id="modal-close-button">X</button>
 </div>
 
 <style lang="sass">
@@ -18,12 +43,19 @@ import zephyrPfp from "../assets/image/ZephyrPFP.png";
 		display: none
 		position: fixed
 		align-items: center
-		justify-content: space-between
+		justify-content: space-evenly
 		z-index: 4
+		gap: $gap-default
 		inset: calc($gap-huge * -1)
 		padding: calc($gap-huge * 1.5)
 		backdrop-filter: blur(10px)
 		background-color: rgba(0, 0, 0, 0.8)
+
+		#modal-attr
+			display: flex
+			flex-direction: column
+			max-width: 40vw
+
 
 		h1#modal-title
 			color: $color-background-default
@@ -31,14 +63,23 @@ import zephyrPfp from "../assets/image/ZephyrPFP.png";
 		p#modal-desc
 			color: $color-background-hover
 
-		img#modal-image
-			width: 50vw
+		#modal-url-wrapper
+			display: flex
+			flex-direction: row
 
-		button#modal-close-button
+		a#modal-url
+			margin-right: $gap-small
+
+		img#modal-linkicon
+			display: none
+
+		img#modal-image
+			max-height: 100%
+			max-width: 60%
+			justify-seexternalLinkose-button
 			align-self: flex-start
 			border: none
 			padding: $gap-small $gap-default
-			margin: $gap-default
 			background-color: $color-background-default
 			font-size: 32px
 
@@ -46,15 +87,19 @@ import zephyrPfp from "../assets/image/ZephyrPFP.png";
 				cursor: $cursor-pointer
 				color: white
 				background-color: $color-background-hover
+
+
+		@keyframes scan-in
+			0%
+				clip-path: xywh(0 0 100% 0%)
+			37%
+				clip-path: xywh(0 0 100% 25%)
+			50%
+				clip-path: xywh(0 0 100% 25%)
+			65%
+				clip-path: xywh(0 0 100% 50%)
+			80%
+				clip-path: xywh(0 0 100% 52%)
+			100%
+				clip-path: xywh(0 0 100% 100%)
 </style>
-
-<script>
-	const modal = document.getElementById("modal");
-	const closeButton = document.getElementById("modal-close-button");
-
-	if (closeButton !== null && modal !== null) {
-		closeButton.onclick = function () {
-			modal.style.display = "none";
-		};
-	}
-</script>

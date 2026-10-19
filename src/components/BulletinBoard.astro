@@ -1,0 +1,165 @@
+---
+---
+
+<script>
+	import Panzoom from "@panzoom/panzoom";
+	import type { Vector } from "../types";
+	import { dragState } from "../helper";
+
+	const bulletinBoard: HTMLElement | null =
+		document.getElementById("bulletin-board");
+
+	if (bulletinBoard !== null) {
+		const start: Vector = { x: -450, y: -200 }
+		const START_SCALE = 0.8;
+		const MIN_SCALE = 0.25;
+		const MAX_SCALE = 5;
+
+		const instance = Panzoom(bulletinBoard, {
+			minScale: MIN_SCALE,
+			maxScale: MAX_SCALE,
+			startX: start.x,
+			startY: start.y,
+			startScale: START_SCALE,
+		});
+
+
+		// ========== SMOOTH SCROLLING ==========
+
+		let targetScale = instance.getScale();
+		let focalPoint = { clientX: 0, clientY: 0 };
+		let zoomRequest = 0;
+
+		bulletinBoard.addEventListener("wheel",
+			(event) => {
+				event.preventDefault();
+				targetScale = Math.min(
+					MAX_SCALE,
+					Math.max(
+						MIN_SCALE,
+						targetScale * Math.exp(-event.deltaY * 0.0015),
+					),
+				);
+				focalPoint = { clientX: event.clientX, clientY: event.clientY };
+				if (!zoomRequest)
+					zoomRequest = requestAnimationFrame(smoothZoom);
+			},
+			{ passive: false },
+		);
+
+		// Reset position/zoom
+		window.addEventListener(
+			"keydown",
+			(event) => {
+				if (event.key === "r") {
+					event.preventDefault();
+					targetScale = START_SCALE;
+					if (!zoomRequest)
+						zoomRequest = requestAnimationFrame(smoothZoom);
+				}
+			},
+			{ passive: true },
+		);
+
+		const SCROLL_FRICTION = 0.1;
+
+		function smoothZoom(): void {
+			const current = instance.getScale();
+			const next = current + (targetScale - current) * SCROLL_FRICTION;
+			const done = Math.abs(targetScale - next) < 0.001;
+			instance.zoomToPoint(done ? targetScale : next, focalPoint, {
+				animate: false,
+			});
+			zoomRequest = done ? 0 : requestAnimationFrame(smoothZoom);
+		}
+
+		const galleryImages = document.querySelectorAll(".art-wrapper") as NodeListOf<Element>;
+
+		// ========== SMOOTH PANNING ==========
+
+		let dragging = false;
+		let velocity: Vector = { x: 0, y: 0 };
+		let lastPos: Vector = { x: 0, y: 0 };
+		let lastTime = 0;
+		let inertiaRequest = 0;
+
+		let startingPan: Vector = { x: 0, y: 0 }
+		let DRAG_THRESHOLD = 10; // in pixels, for preventing accidental clicks during panning
+
+		const PAN_FRICTION = 0.95;
+
+		bulletinBoard.addEventListener("panzoomstart", () => {
+			console.log(dragState.didDrag)
+			// cancelAnimationFrame(inertiaRequest);
+			dragging = true;
+			const current = instance.getPan();
+			startingPan	= { x: current.x, y: current.y }
+			// lastPos = { x: current.x, y: current.y };
+			// lastTime = performance.now();
+			// velocity = { x: 0, y: 0 };
+		});
+
+		bulletinBoard.addEventListener("panzoomchange", (event) => {
+			console.log(dragState.didDrag)
+			if (!dragging) return;
+			const { x, y } = (event as CustomEvent).detail;
+			const moved = Math.hypot(x - startingPan.x, y - startingPan.y);
+			if (moved > DRAG_THRESHOLD) dragState.didDrag = true;
+			// const now = performance.now();
+			// const distance = Math.max(now - lastTime, 1);
+			// velocity.x = 0.7 * ((x - lastPos.x) / distance) + 0.3 * velocity.x;
+			// velocity.y = 0.7 * ((y - lastPos.y) / distance) + 0.3 * velocity.y;
+			// lastPos = { x: x, y: y };
+			// lastTime = now;
+		});
+
+		bulletinBoard.addEventListener("panzoomend", () => {
+			console.log(dragState.didDrag)
+			setTimeout(() => (dragState.didDrag = false), 0)
+			// dragging = false;
+			// if (performance.now() - lastTime > 80) return;
+			// inertiaRequest = requestAnimationFrame(smoothPan);
+		});
+
+		bulletinBoard.addEventListener("click", (event: Event) => {
+			if (!dragState.didDrag) return;
+			event.preventDefault();
+			event.stopPropagation();
+		}, true);
+
+		function smoothPan(now: number): void {
+			let last = performance.now();
+
+			const distance = now - last;
+			last = now;
+
+			const friction = Math.pow(PAN_FRICTION, distance / 16.7)
+			velocity.x *= friction;
+			velocity.y *= friction;
+
+			if (Math.hypot(velocity.x, velocity.y) < 0.1) return;
+
+			instance.pan(velocity.x * distance, velocity.y * distance, { relative: true, animate: false });
+			inertiaRequest = requestAnimationFrame(smoothPan);
+		}
+	}
+</script>
+
+<div id="bulletin-board">
+	<slot/>
+</div>
+
+<style lang="sass">
+	@use "../styles/_variables" as *
+
+	#bulletin-board
+		display: flex
+		align-items: center
+		padding: $gap-large
+		width: min-content
+		background-image: url("../assets/image/Bulletin.webp")
+		border-width: 50px
+		border-style: solid
+		border-image: url("../assets/image/BulletinBorder.webp") 30%
+		box-shadow: 10px 10px 10px $color-shadow-dark inset
+</style>

@@ -1,66 +1,37 @@
 ---
 import DefaultLayout from "../layouts/DefaultLayout.astro";
 
+// COMPONENTS
 import GalleryImage from "../components/GalleryImage.astro";
 import Head from "../components/Head.astro";
 import Nav from "../components/Nav.astro";
 import Modal from "../components/Modal.astro";
 import Footer from "../components/Footer.astro";
+import ToggleButton from "../components/ToggleButton.astro";
+import BulletinBoard from "../components/BulletinBoard.astro";
 
-// Image imports
-import astraPfp from "../assets/image/AstraPFP.png";
-import zephyrPfp from "../assets/image/ZephyrPFP.png";
-import junePfp from "../assets/image/JunePFP.png";
-import sazabi from "../assets/image/SazabiComm.png";
-import chloe from "../assets/image/Chloe.png";
-import comicLucy from "../assets/image/HorrorComic_Lucy.png";
-import comicTori from "../assets/image/HorrorComic_Tori.png";
-import comicZephyr from "../assets/image/HorrorComic_Zephyr.png";
-import noctMommy from "../assets/image/NoctMommy.png";
-import willow from "../assets/image/WillowIsMelty.gif";
-import aiCapsule from "../assets/image/AiCapsule.png";
-import mirror from "../assets/image/ToTheMirror.gif";
-import soLongStardust from "../assets/image/SoLongStardust.png";
+// IMAGES
+import astraPfp from "../assets/image/AstraPfp.webp";
+import zephyrPfp from "../assets/image/ZephyrPfp.webp";
+import junePfp from "../assets/image/JunePfp.webp";
+import sazabi from "../assets/image/SazabiComm.webp";
+import chloe from "../assets/image/Chloe.webp";
+import comicLucy from "../assets/image/HorrorComic_Lucy.webp";
+import comicTori from "../assets/image/HorrorComic_Tori.webp";
+import comicZephyr from "../assets/image/HorrorComic_Zephyr.webp";
+import noctMommy from "../assets/image/NoctMommy.webp";
+import willow from "../assets/image/WillowIsMelty.webp";
+import aiCapsule from "../assets/image/AiCapsule.webp";
+import mirror from "../assets/image/ToTheMirror.webp";
+import soLongStardust from "../assets/image/SoLongStardust.webp";
+import astraCommie from "../assets/image/AstraCommie.webp";
 import spookyPark from "../assets/image/SpookyPark.webp";
+import nobodyPfp from "../assets/image/NobodyPfp.webp";
+import celestePfp from "../assets/image/CelestePfp.webp";
+import ashAndBlood from "../assets/image/AshAndBlood.webp";
+import artfightProfile from "../assets/image/ArtfightProfile.webp";
+import hunterHunter from "../assets/image/HunterHunter.webp";
 ---
-
-<script>
-	import panzoom from "panzoom";
-	import type { Transform } from "panzoom";
-
-	var bulletinBoard: HTMLElement | null = document.getElementById("bulletin-board");
-
-	if (bulletinBoard !== null) {
-		const instance = panzoom(bulletinBoard, {
-			bounds: true,
-			boundsPadding: 0.1,
-			minZoom: 0.25,
-			maxZoom: 5,
-			initialX: 0,
-			initialY: 0,
-			transformOrigin: { x: 0.5, y: 0.5 },
-			zoomDoubleClickSpeed: 1,
-		});
-
-		// Reset position/zoom
-		window.addEventListener("keydown", (event) => {
-			const transform: Transform = instance.getTransform();
-			var scale: number = 0.0;
-
-			if (transform !== null) {
-				scale = 1 / transform.scale;
-			}
-			console.log(transform)
-
-			instance.smoothMoveTo
-			if (event.key === "r") {
-				instance.smoothMoveTo(0, 0);
-				// instance.smoothZoom(0, 0, scale);
-			}
-		});
-	}
-
-</script>
 
 <DefaultLayout>
 	<Head
@@ -70,49 +41,83 @@ import spookyPark from "../assets/image/SpookyPark.webp";
 		image={astraPfp.src}
 		url="https://dreamingcassette.com/gallery"
 	/>
-
+	<script is:inline src="../helper.ts"/>
 	<main slot="main">
 		<Modal />
 
 		<div id="hud">
 			<Nav currentPage="gallery" />
-			<div id="help-text">
+			<aside>
 				<div>
 					<p>Left Click to drag</p>
 					<p>Scroll to zoom</p>
 					<p>R to reset position</p>
 				</div>
 				<Footer />
-			</div>
+			</aside>
 		</div>
 
-		<div id="bulletin-board">
-			<div>
-				<GalleryImage class="art-small" img={astraPfp.src} />
-				<GalleryImage class="art-small" img={zephyrPfp.src} />
-				<GalleryImage class="art-small" img={junePfp.src} />
+		<BulletinBoard>
+			<div class="image-column">
+				<GalleryImage class="art-medium" img={astraPfp.src} title="Astra Profile"
+					desc="You look lonely... I can fix that."/>
+				<GalleryImage class="art-medium" img={noctMommy.src} title="Space Mommy"
+					desc='Noct, a character designed by <a href="https://kawaiibakemono.art/home/" target="_blank"> for one of my personal projects.'/>
+				<GalleryImage class="art-medium" img={astraCommie.src} title="Astra Ushanka"
+					desc="They're comfortable hats, I like them a lot."/>
 			</div>
-			<div>
-				<GalleryImage class="art-medium" img={sazabi.src} />
-				<GalleryImage class="art-medium" img={chloe.src} />
+			<div class="image-column">
+				<GalleryImage class="art-medium" img={sazabi.src} title="Sazabi (Commission)"
+					desc="I've gotten pretty good at drawing mechanical things. Here's a huge robot to prove it"/>
+				<GalleryImage class="art-medium" img={junePfp.src} title="June Profile"
+					desc="I don't know how to describe this one I'll think of something later"/>
+				<GalleryImage class="art-medium" img={chloe.src} title="Chloe (Commission)"
+					desc="Furries are where the commission money is at, you know?"/>
 			</div>
-			<div>
-				<GalleryImage class="art-medium" img={comicLucy.src} />
-				<GalleryImage class="art-medium" img={comicTori.src} />
+			<div class="image-column">
 			</div>
-			<div>
-				<GalleryImage class="art-medium" img={noctMommy.src} />
-				<GalleryImage class="art-medium" img={comicZephyr.src} />
+			<div class="image-column">
+				<GalleryImage class="art-medium" img={comicLucy.src} title="Night of the Rocking Dead"
+					desc="Killer karaoke party..."
+					url="https://artfight.net/~Vapidslacker" urlText="Vapidslacker - Artfight"/>
+					<GalleryImage class="art-medium" img={comicTori.src} title="What Lurks in the Shadows"
+					desc="I don't think that gun is gonna cut it..."
+					url="https://artfight.net/~Torisyll0" urlText="Torisyll0 - Artfight"/>
+					<GalleryImage class="art-medium" img={zephyrPfp.src} title="Zephyr Profile"
+					desc='What is wrong with you? Why are you <span style="color: turquoise;">blue<span/>?'/>
+				</div>
+				<div class="image-column">
+					<GalleryImage class="art-medium" img={comicZephyr.src} title="Things that go THUNK in the Night"
+					desc="She loves throwing acorns at people. Be warned."
+					url="https://artfight.net/~ZephyrBytes" urlText="ZephyrBytes - Artfight"/>
+				<GalleryImage class="art-medium" img={willow.src} title="Willow is Melty"
+					desc="An ArtFight piece; the fire is so cozy... Too bad she's a candle"
+					url="https://artfight.net/~s_stompkinz" urlText="s_stompkinz - Artfight"/>
+				<GalleryImage class="art-medium" img={aiCapsule.src} title="Ai Capsule"
+					desc="Features the protagonist, Ai, from Waking Dreams, a WIP game."/>
 			</div>
-			<div>
-				<GalleryImage class="art-medium" img={willow.src} />
-				<GalleryImage class="art-medium" img={aiCapsule.src} />
+			<div class="image-column">
+				<GalleryImage class="art-large" img={soLongStardust.src} title="So Long, Stardust"
+					desc="[MISSING DESCRIPTION]"/>
+				<GalleryImage class="art-medium" img={mirror.src} title="RANBL to the Mirror"
+					desc="I made this animation for ArtFight and I am still so so proud of this"
+					url="https://artfight.net/~frecoin" urlText="frecoin - Artfight"/>
+				<GalleryImage class="art-wide" img={spookyPark.src} title="Spooky Park"
+					desc="So many paranormal things all in one place ... how weird can it get?"/>
 			</div>
-			<div>
-				<GalleryImage class="art-large" img={soLongStardust.src} />
-				<GalleryImage class="art-medium" img={mirror.src} />
+			<div class="image-column">
+				<GalleryImage class="art-large" img={nobodyPfp.src} title="□□□□□□"
+					desc="□□□□ □□□□ □□□ □□□□□□ □□□□ □□□□□□□□"/>
+				<GalleryImage class="art-medium" img={celestePfp.src} title="Celeste Profile"
+					desc=`<img src="${hunterHunter.src}" alt="Hunter Hunter">`/>
+				<GalleryImage class="art-medium" img={ashAndBlood.src} title="Ash & Blood"
+					desc="Having a succubus dragon cat girlfriend thing has its perks"/>
 			</div>
-		</div>
+			<div class="image-column">
+				<GalleryImage class="art-large" img={artfightProfile.src} title="Artfight Profile"
+					desc="I made this for my profile page. It's still there, but I'll probably remake it for next year. Hopefully, better."/>
+			</div>
+		</BulletinBoard>
 	</main>
 </DefaultLayout>
 
@@ -121,41 +126,21 @@ import spookyPark from "../assets/image/SpookyPark.webp";
 
 	main
 		overflow: visible
-		cursor: $cursor-grab
 
-		&:active
-			cursor: $cursor-grabbing
+	#hud,
+	aside
+		display: flex
+		justify-content: space-between
 
 	#hud
-		display: flex
 		flex-direction: column
 		position: absolute
-		justify-content: space-between
 		z-index: 2
 		height: 100vh
 		pointer-events: none
 
-	#bulletin-board
-		display: flex
-		flex-direction: column
-		align-items: center
-		justify-content: center
-		flex-wrap: wrap
-		padding: $gap-large
-		background-image: url("../assets/image/Bulletin.png")
-		border-width: 50px
-		border-style: solid
-		border-image: url("../assets/image/BulletinBorder.png") 30%
-		height: 115vh
-		width: 160vw
-		box-shadow: 10px 10px 10px $color-shadow-dark inset
-
-
-	#help-text
-		display: flex
-		flex-direction: row
+	aside
 		align-items: flex-end
-		justify-content: space-between
 		color: $color-background-default
 		user-select: none
 		width: 100vw
@@ -164,4 +149,7 @@ import spookyPark from "../assets/image/SpookyPark.webp";
 
 		&:nth-child(2)
 			align-self: end
+
+	.image-column
+		flex-direction: column
 </style>

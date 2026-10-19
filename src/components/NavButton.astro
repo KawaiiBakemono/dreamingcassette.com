@@ -1,5 +1,6 @@
 ---
-type Target = "_blank" | "_self" | "_parent" | "_top";
+import type { Target } from '../types';
+
 interface Props {
 	href: string;
 	text: string;
@@ -19,16 +20,9 @@ const { href, text, target } = Astro.props;
 		display: flex
 		background-color: $color-background-default
 		padding: $gap-default $gap-large
-		color: $color-accent-default
 		text-align: center
-		text-decoration: none
 		filter: drop-shadow(1rem 1rem $color-shadow)
-		pointer: $cursor-pointer
-		pointer-events: auto
 
 		&:hover
-			color: white
 			background-color: $color-background-hover
-			text-decoration: underline
-			text-decoration-thickness: 3px
 </style>

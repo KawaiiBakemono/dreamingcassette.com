@@ -4,7 +4,10 @@ interface Props {
 }
 const { overflow } = Astro.props;
 
-import CRTFilter from "../components/CRTFilter.astro"
+import CRTFilter from "../components/CRTFilter.astro";
+
+import background from "../assets/image/BlackStars.webp";
+const bgHeight: string = background.height.toString() + "px";
 ---
 
 <!doctype html>
@@ -22,14 +25,14 @@ import CRTFilter from "../components/CRTFilter.astro"
 	</body>
 </html>
 
-<style is:global lang="sass">
+<style is:global lang="sass" define:vars={{bgHeight}}>
 	@use "../styles/_variables" as *
 
 	html,
 	body
 		margin: 0
 		width: 100%
-		background-image: url("../assets/image/BlackStars.jpg")
+		background-image: url("../assets/image/BlackStars.webp")
 		animation: scroll 60s linear infinite
 		scrollbar-color: $color-accent-default black
 		font-family: $font-family
@@ -46,5 +49,5 @@ import CRTFilter from "../components/CRTFilter.astro"
 
 	@keyframes scroll
 		100%
-			background-position: 0 853px
+			background-position: 0 var(--bgHeight)
 </style>

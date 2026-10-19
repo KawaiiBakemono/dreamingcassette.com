@@ -1,0 +1,53 @@
+---
+interface Props {
+	label?: string;
+}
+const { label } = Astro.props;
+---
+
+<div>
+	<label for="toggle">{label}</label>
+	<span id="toggle">
+		<input type="checkbox">
+		<span id="thumb"></span>
+	</span>
+</div>
+
+<style lang="sass">
+	@use "../styles/_variables" as *
+
+	div
+		display: flex
+		flex-direction: column
+		gap: $gap-small
+
+	#toggle
+		display: flex
+		width: 3.5rem
+		padding: $gap-tiny
+		background-color: $color-background-default
+		cursor: $cursor-pointer
+		pointer-events: auto
+
+		&:hover
+			background-color: $color-background-hover
+
+		input
+			width: 0
+			height: 0
+			margin: 0
+
+	#thumb
+		background-color: $color-accent-default
+		height: 1.5rem
+		aspect-ratio: 1 / 1
+		pointer-events: none
+
+	input:checked + #thumb
+		margin-left: 2.5rem
+		transition: margin-left 200ms ease-in
+
+	label
+		color: $color-background-default
+		text-shadow: 2px 3px $color-foreground-default
+</style>

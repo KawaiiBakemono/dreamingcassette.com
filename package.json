@@ -12,8 +12,8 @@
     "astro": "astro"
   },
   "dependencies": {
+    "@panzoom/panzoom": "^4.6.2",
     "astro": "^7.3.5",
-    "panzoom": "^9.4.4",
     "sass": "^1.105.1"
   },
   "allowScripts": {

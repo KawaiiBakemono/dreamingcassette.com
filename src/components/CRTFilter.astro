@@ -13,9 +13,9 @@ const { overflow } = Astro.props;
 	<feColorMatrix in="warped" type="matrix" result="r" values="1 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 1 0" />
 	<feColorMatrix in="warped" type="matrix" result="g" values="0 0 0 0 0  0 1 0 0 0  0 0 0 0 0  0 0 0 1 0" />
 	<feColorMatrix in="warped" type="matrix" result="b" values="0 0 0 0 0  0 0 0 0 0  0 0 1 0 0  0 0 0 1 0" />
-	<feOffset in="r" dx="-1.2" dy="0" result="r2" />
+	<feOffset in="r" dx="-1.2" dy="0" result="R2" />
 	<feOffset in="b" dx="1.2" dy="0" result="b2" />
-	<feBlend in="r2" in2="g" mode="screen" result="rg" />
+	<feBlend in="R2" in2="g" mode="screen" result="rg" />
 	<feBlend in="rg" in2="b2" mode="screen" result="chroma" />
 	<feGaussianBlur in="chroma" stdDeviation="1.8" result="blur" />
 	<feComposite in="chroma" in2="blur" operator="arithmetic" k1="0" k2="1" k3="0.45" k4="0" />
@@ -133,15 +133,18 @@ const { overflow } = Astro.props;
 </style>
 
 <script>
+	import type { Vector } from "../types";
+	import { dragState } from "../helper";
+
 	// TODO: Fix artifacting on text n shit
 	// Barrel distortion displacement map filter :3
 	const filter: SVGElement = document.getElementById("crt-filter") as unknown as SVGElement;
 	const feMap: SVGElement = document.getElementById("crt-map") as unknown as SVGElement;
 	const feDisplace: SVGElement = document.getElementById("crt-displace") as unknown as SVGElement;
 
-	const CURVATURE: number = 0.03;
-	const MAP_W: number = 256;
-	const MAP_H: number = 256;
+	const CURVATURE = 0.03;
+	const MAP_W = 256;
+	const MAP_H = 256;
 
 	const canvas: HTMLCanvasElement = document.createElement("canvas");
 	canvas.width = MAP_W;
@@ -149,25 +152,27 @@ const { overflow } = Astro.props;
 	const context: CanvasRenderingContext2D = canvas.getContext("2d")!;
 
 	function render() {
-		const WIDTH: number = window.innerWidth;
-		const HEIGHT: number = window.innerHeight;
-		const maxX: number = (WIDTH / 2) * CURVATURE * 2;
-		const maxY: number = (HEIGHT / 2) * CURVATURE * 2;
-		const scale: number = 2 * Math.max(maxX, maxY);
+		const WIDTH = window.innerWidth;
+		const HEIGHT = window.innerHeight;
+		const maxX = (WIDTH / 2) * CURVATURE * 2;
+		const maxY = (HEIGHT / 2) * CURVATURE * 2;
+		const scale = 2 * Math.max(maxX, maxY);
 
 		const img: ImageData = context.createImageData(MAP_W, MAP_H);
 		for (let i = 0; i < MAP_H; i++) {
 			for (let j = 0; j < MAP_W; j++) {
 				const u = (j / (MAP_W - 1)) * 2 - 1;
 				const v = (i / (MAP_H - 1)) * 2 - 1;
-				const r2 = u * u + v * v;
-				const dx = (WIDTH / 2) * u * CURVATURE * r2;
-				const dy = (HEIGHT / 2) * v * CURVATURE * r2;
-				const o = (i * MAP_W + j) * 4;
-				img.data[o] = Math.round(255 * (0.5 + dx / scale));
-				img.data[o + 1] = Math.round(255 * (0.5 + dy / scale));
-				img.data[o + 2] = 128;
-				img.data[o + 3] = 255;
+				const R2 = u * u + v * v;
+				const distance: Vector = {
+					x: (WIDTH / 2) * u * CURVATURE * R2,
+					y: (HEIGHT / 2) * v * CURVATURE * R2
+				};
+				const output = (i * MAP_W + j) * 4;
+				img.data[output] = Math.round(255 * (0.5 + distance.x / scale));
+				img.data[output + 1] = Math.round(255 * (0.5 + distance.y / scale));
+				img.data[output + 2] = 128;
+				img.data[output + 3] = 255;
 			}
 		}
 		context.putImageData(img, 0, 0);
@@ -185,12 +190,12 @@ const { overflow } = Astro.props;
 	function visibleToSource(x: number, y: number): [number, number] {
 		const WIDTH = window.innerWidth;
 		const HEIGHT = window.innerHeight;
-		const u = (x / WIDTH) * 2 - 1;
-		const v = (y / HEIGHT) * 2 - 1;
-		const r2 = u * u + v * v;
+		const U = (x / WIDTH) * 2 - 1;
+		const V = (y / HEIGHT) * 2 - 1;
+		const R2 = U * U + V * V;
 		return [
-			x + (WIDTH / 2) * u * CURVATURE * r2,
-			y + (HEIGHT / 2) * v * CURVATURE * r2,
+			x + (WIDTH / 2) * U * CURVATURE * R2,
+			y + (HEIGHT / 2) * V * CURVATURE * R2,
 		];
 	}
 
@@ -199,12 +204,17 @@ const { overflow } = Astro.props;
 		return { el: document.elementFromPoint(x, y), x, y };
 	}
 
-	window.addEventListener("click", (e) => {
-		if (!e.isTrusted) return; // let our own synthetic clicks through
-		e.preventDefault();
-		e.stopImmediatePropagation();
+	// We need to simulate clicks on a different layer to account for the barrel distortion
+	window.addEventListener("click", (event) => {
+		if (!event.isTrusted) return;
+		event.preventDefault();
+		event.stopImmediatePropagation();
 
-		const { el, x, y } = targetAt(e);
+		const wasDrag = dragState.didDrag;
+		dragState.didDrag = false;
+		if (wasDrag) return;
+
+		const { el, x, y } = targetAt(event);
 		if (!el) return;
 
 		if (el instanceof HTMLElement && el.matches("input, textarea, select, [contenteditable]")) {
@@ -218,20 +228,19 @@ const { overflow } = Astro.props;
 				view: window,
 				clientX: x,
 				clientY: y,
-				button: e.button,
-				ctrlKey: e.ctrlKey,
-				shiftKey: e.shiftKey,
-				altKey: e.altKey,
-				metaKey: e.metaKey,
+				button: event.button,
+				ctrlKey: event.ctrlKey,
+				shiftKey: event.shiftKey,
+				altKey: event.altKey,
+				metaKey: event.metaKey,
 		})); }, true
 	);
 
 	let hovered: Element[] = [];
-	window.addEventListener(
-		"pointermove",
-		(e) => {
-			if (!e.isTrusted) return;
-			const { el } = targetAt(e);
+	window.addEventListener("pointermove",
+		(event) => {
+			if (!event.isTrusted) return;
+			const { el } = targetAt(event);
 			const chain: Element[] = [];
 			for (let n = el; n; n = n.parentElement) chain.push(n);
 			for (const n of hovered) if (!chain.includes(n)) n.classList.remove("hover");

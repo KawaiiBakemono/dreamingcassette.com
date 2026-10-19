@@ -3,12 +3,15 @@ interface Props {
 	img: string;
 	title: string;
 	desc: string;
+	url?: string;
+	urlText?: string;
 	class?: string;
 }
-const { img, title, desc, class: className, ...rest } = Astro.props;
+const { img, title, desc, url, urlText, class: className, ...rest } = Astro.props;
 
-import PushPin from '../assets/image/PushPin.png';
+import PushPin from '../assets/image/PushPin.webp';
 
+// Set the alt text as the filename cuz man idgaf
 const BASENAME_REGEX: RegExp = /([a-zA-Z0-9])+\.[a-z]+/;
 let basename = img.split('/').reverse()[0].match(BASENAME_REGEX) as RegExpMatchArray;
 let altText: string = "";
@@ -18,16 +21,66 @@ if (basename !== null) {
 }
 ---
 
-<div class:list={["art-wrapper", className]} {...rest}>
-	<img id="pushpin" src={PushPin.src} alt="Pushpin" oncontextmenu="return false">
-	<img id="artwork" src={img} alt={altText} oncontextmenu="return false">
-</div>
+<script>
+	const modal = document.getElementById("modal");
+	const modalTitle = document.getElementById("modal-title");
+	const modalBody = document.getElementById("modal-desc");
+	const modalImage = document.getElementById("modal-image") as HTMLImageElement;
+	const modalUrl = document.getElementById("modal-url") as HTMLAnchorElement;
+	const externalLinkIcon = document.getElementById("modal-linkicon") as HTMLImageElement;
+
+	const galleryImages = document.querySelectorAll(".art-wrapper") as NodeListOf<Element>;
+
+	galleryImages.forEach((artwork: Element) => {
+		artwork.addEventListener("click", (event) => appendToModal(event));
+	});
+
+	function appendToModal(event: Event): void {
+		if (!modal || !modalTitle || !modalBody || !modalImage || !modalUrl) return;
+
+		let target = event.currentTarget as HTMLElement;
+		let targetImage = target.querySelector("#artwork") as HTMLImageElement;
+
+		// Grab datasets from image
+		const dataTitle: string = target.dataset.title ?? "N/A";
+		const dataDescription: string = target.dataset.desc ?? "N/A";
+		const dataUrl: string = target.dataset.url ?? "";
+		const dataUrlText: string = target.dataset.urltext ?? "";
+
+		modalTitle.textContent = dataTitle;
+		modalBody.innerHTML = "";
+		modalBody.insertAdjacentHTML("beforeend", dataDescription);
+
+		modalUrl.innerHTML = "";
+		if (dataUrl) {
+			modalUrl.href = dataUrl;
+			modalUrl.insertAdjacentHTML("beforeend", dataUrlText);
+			externalLinkIcon.style.display = "flex";
+		}
+		else {
+			externalLinkIcon.style.display = "none";
+		}
+
+		if (targetImage) {
+			modalImage.src = targetImage.src;
+			modalImage.alt = targetImage.alt;
+		}
+
+		modal.style.display = "flex";
+	}
+</script>
+
+<button class:list={["art-wrapper", className]} data-title={title} data-desc={desc} data-url={url} data-urltext={urlText}>
+	<img id="pushpin" src={PushPin.src} alt="Pushpin">
+	<img id="artwork" src={img} alt={altText}>
+</button>
 
 <style lang="sass">
 	@use "../styles/_variables" as *
 
 	.art-wrapper
 		display: grid
+		appearance: none
 		padding: $gap-small
 		grid-template-columns: minmax(0, 1fr)
 		grid-template-rows: minmax(0, 1fr)
@@ -80,5 +133,18 @@ if (basename !== null) {
 </style>
 
 <script>
+	const modal = document.getElementById("modal");
+	const artwork = document.getElementById("artwork");
 
+	function openModal(): void {
+		if (modal) {
+			modal.style.display = "flex";
+		}
+	}
+
+	if (artwork) {
+		artwork.onclick = (event) => {
+			openModal();
+		}
+	}
 </script>
