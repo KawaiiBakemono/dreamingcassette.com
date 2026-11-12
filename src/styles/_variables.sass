@@ -38,6 +38,7 @@ button
 	background-color: transparent
 	padding: 0
 	border: 0
+	appearance: none
 
 a
 	color: $color-accent-default
@@ -49,6 +50,9 @@ a
 		color: white
 		text-decoration: underline
 		text-decoration-thickness: 3px
+
+:focus-visible
+	outline: #ff3067 dashed 3px
 
 
 @function randomNum($min, $max)

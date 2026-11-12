@@ -1,0 +1,29 @@
+
+
+<button class="hamburger-icon">
+	<span></span>
+	<span></span>
+	<span></span>
+</button>
+
+
+
+<style lang="sass">
+	@use "../styles/_variables" as *
+
+	.hamburger-icon
+		display: flex
+		flex-direction: column
+		justify-content: space-between
+		align-self: flex-end
+		width: 32px
+		aspect-ratio: 1 / 1
+
+		span
+			width: 100%
+			height: 5px
+			background-color: $color-background-default
+
+		&.hover span
+			background-color: $color-background-hover
+</style>

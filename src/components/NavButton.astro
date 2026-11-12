@@ -21,8 +21,13 @@ const { href, text, target } = Astro.props;
 		background-color: $color-background-default
 		padding: $gap-default $gap-large
 		text-align: center
-		filter: drop-shadow(1rem 1rem $color-shadow)
+		filter: drop-shadow($gap-default $gap-default $color-shadow)
 
 		&:hover
 			background-color: $color-background-hover
+
+		&:active
+			$offset: calc($gap-default - $gap-tiny)
+			transform: translate($gap-tiny, $gap-tiny)
+			filter: drop-shadow($offset $offset $color-shadow)
 </style>

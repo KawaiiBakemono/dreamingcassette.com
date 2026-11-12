@@ -23,7 +23,6 @@ const { overflow } = Astro.props;
 </svg>
 
 <div id="crt-screen-wrapper" tabindex="-1">
-	<!-- Page goes here -->
 	<slot />
 </div>
 
@@ -46,6 +45,9 @@ const { overflow } = Astro.props;
 		overflow-y: var(--overflow)
 		filter: url(#crt-filter)
 
+		&:focus-visible
+			outline: none
+
 	#crt-overlay
 		position: fixed
 		inset: 0
@@ -57,7 +59,6 @@ const { overflow } = Astro.props;
 		position: absolute
 		inset: 0
 
-	// Glass highlights
 	$highlight-topleft: radial-gradient(ellipse 32% 28% at 24% 24%, #ffffff04, transparent 70%)
 	$highlight-bottomright: radial-gradient(ellipse 10% 8% at 90% 92%, #ffffff02, transparent 70%)
 	.crt-glass
@@ -151,7 +152,7 @@ const { overflow } = Astro.props;
 	canvas.height = MAP_H;
 	const context: CanvasRenderingContext2D = canvas.getContext("2d")!;
 
-	function render() {
+	function renderCRT() {
 		const WIDTH = window.innerWidth;
 		const HEIGHT = window.innerHeight;
 		const maxX = (WIDTH / 2) * CURVATURE * 2;
@@ -187,6 +188,7 @@ const { overflow } = Astro.props;
 		feDisplace.setAttribute("scale", String(scale));
 	}
 
+	// We need to simulate click/pointer events on a different layer to account for the barrel distortion
 	function visibleToSource(x: number, y: number): [number, number] {
 		const WIDTH = window.innerWidth;
 		const HEIGHT = window.innerHeight;
@@ -204,7 +206,6 @@ const { overflow } = Astro.props;
 		return { el: document.elementFromPoint(x, y), x, y };
 	}
 
-	// We need to simulate clicks on a different layer to account for the barrel distortion
 	window.addEventListener("click", (event) => {
 		if (!event.isTrusted) return;
 		event.preventDefault();
@@ -247,14 +248,15 @@ const { overflow } = Astro.props;
 			for (const n of chain) n.classList.add("hover");
 			hovered = chain;
 		},
-		{ passive: true },
+		{ passive: true }
 	);
 
+	// Resize CRT filter when window gets resized
 	let timer: number;
 	window.addEventListener("resize", () => {
 		clearTimeout(timer);
-		timer = window.setTimeout(render, 150);
+		timer = window.setTimeout(renderCRT, 150);
 	});
 
-	render();
+	renderCRT();
 </script>

@@ -5,8 +5,11 @@ interface Props {
 const { overflow } = Astro.props;
 
 import CRTFilter from "../components/CRTFilter.astro";
+import HamburgerMenu from "../components/HamburgerMenu.astro";
 
 import background from "../assets/image/BlackStars.webp";
+import confirmSound from "../assets/sound/Confirm.ogg";
+
 const bgHeight: string = background.height.toString() + "px";
 ---
 
@@ -14,12 +17,11 @@ const bgHeight: string = background.height.toString() + "px";
 <html lang="en">
 	<slot name="head" />
 	<body>
-		<!-- <div id="checkbox-audio">
-			<audio id="tap-sound-a">
-				<source src="/assets/sound/GlassTap1.ogg" type="audio/ogg">
-			</audio>
-		</div> -->
+		<audio id="button-confirm">
+			<source src={confirmSound} type="audio/ogg">
+		</audio>
 		<CRTFilter overflow={overflow}>
+			<HamburgerMenu />
 			<slot name="main" />
 		</CRTFilter>
 	</body>
@@ -37,14 +39,20 @@ const bgHeight: string = background.height.toString() + "px";
 		scrollbar-color: $color-accent-default black
 		font-family: $font-family
 		font-size: $font-size
-
-	body
 		outline: none
 		cursor: $cursor-default
+
+	main
+		outline: none
 
 	a,
 	button,
 	[role="button"]
+		cursor: $cursor-default
+
+	a.hover,
+	button.hover,
+	[role="button"].hover
 		cursor: $cursor-pointer
 
 	@keyframes scroll
